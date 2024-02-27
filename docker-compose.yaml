@@ -4,6 +4,10 @@ networks:
   loki:
 
 
+volumes:
+  data:
+    external: true
+
 services:
   loki:
     image: grafana/loki:2.9.4
@@ -17,7 +21,8 @@ services:
     image: grafana/promtail:2.9.4
     volumes:
       - ./logs:/mnt/support_logs
-      - ./promtail/promtail-config.yaml:/etc/promtail/promtail-config.yaml
+      - ./logs_test:/mnt/test_logs
+      - ./promtail:/etc/promtail
     command: -config.file=/etc/promtail/promtail-config.yaml
     networks:
       - loki
